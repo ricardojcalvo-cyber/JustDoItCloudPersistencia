@@ -31,4 +31,19 @@ public class Task {
         INPROGRESS,
         DONE
     }
+
+    /**
+     * Devuelve una copia de la tarea con el siguiente estado:
+     * PENDING -> INPROGRESS -> DONE. Si ya está en DONE, conserva DONE.
+     */
+    public Task advance() {
+        Status next = switch (status) {
+            case PENDING    -> Status.INPROGRESS;
+            case INPROGRESS -> Status.DONE;
+            case DONE       -> Status.DONE;
+        };
+        Task advanced = new Task(id, description, createdAt, deadline, next);
+        advanced.setUserId(userId);
+        return advanced;
+    }
 }
